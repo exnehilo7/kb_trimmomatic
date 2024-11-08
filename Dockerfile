@@ -1,5 +1,5 @@
-FROM kbase/kbase:sdkbase2.latest
-MAINTAINER KBase Developer
+FROM kbase/sdkpython:3.8.10
+
 # -----------------------------------------
 # In this section, you can install any system dependencies required
 # to run your App.  For instance, you could place an apt-get update or
@@ -11,6 +11,10 @@ MAINTAINER KBase Developer
 # Here we install a python coverage tool and an
 # https library that is out of date in the base image.
 
+# update and install unzip
+RUN apt update \
+    && apt install -y unzip
+
 RUN pip install coverage
 
 # update security libraries in the base image
@@ -20,7 +24,6 @@ RUN pip install cffi --upgrade \
     && pip install pyasn1 --upgrade \
     && pip install requests --upgrade \
     && pip install 'requests[security]' --upgrade
-
 # -----------------------------------------
 
 COPY ./ /kb/module
@@ -34,6 +37,8 @@ RUN make all
 # Install Trimmomatic
 RUN curl http://www.usadellab.org/cms/uploads/supplementary/Trimmomatic/Trimmomatic-0.36.zip -o Trimmomatic-0.36.zip && \
     unzip Trimmomatic-0.36.zip
+
+RUN pip install requests-toolbelt
 
 ENTRYPOINT [ "./scripts/entrypoint.sh" ]
 

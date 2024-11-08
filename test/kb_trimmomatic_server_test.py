@@ -15,7 +15,7 @@ except:
 from pprint import pprint
 
 from requests_toolbelt import MultipartEncoder
-from biokbase.workspace.client import Workspace as workspaceService
+from installed_clients.WorkspaceClient import Workspace as workspaceService
 from biokbase.AbstractHandle.Client import AbstractHandle as HandleService
 
 from kb_trimmomatic.kb_trimmomaticImpl import kb_trimmomatic
